@@ -1,0 +1,17 @@
+.PHONY: phpstan rector-dry rector ecs-dry ecs linter
+
+phpstan:
+	docker compose exec --user www-data php-fpm /bin/bash -c "php -dmemory_limit=-1 vendor/bin/phpstan analyze src/"
+
+rector:
+	docker compose exec --user www-data php-fpm /bin/bash -c "php -dmemory_limit=-1 vendor/bin/rector"
+
+phpcsfixer:
+	docker compose exec --user www-data php-fpm /bin/bash -c "php -dmemory_limit=-1 vendor/bin/php-cs-fixer fix"
+
+twig:
+	docker compose exec --user www-data php-fpm /bin/bash -c "php -dmemory_limit=-1 vendor/bin/twig-cs-fixer lint templates/ --fix"
+
+linter:
+	make phpcsfixer
+	make twig

@@ -1,0 +1,57 @@
+version: '3'
+services:
+    nginx:
+        container_name: sylius-nginx
+        image: nginx:alpine
+        restart: unless-stopped
+        ports:
+            - "8087:80"
+        networks:
+            sylius:
+                aliases:
+                    - nginx.local
+        volumes:
+            - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+            - ./source:/var/www/html
+    php-fpm:
+        container_name: sylius-php
+        build:
+            context: ./php-fpm
+        restart: unless-stopped
+        networks:
+            sylius:
+                aliases:
+                    - fpm.local
+        volumes:
+            - ./source:/var/www/html
+    db:
+        container_name: sylius-db
+        image: mariadb:10
+        restart: unless-stopped
+        environment:
+            MYSQL_DATABASE: sylius
+            MYSQL_USER: sylius
+            MYSQL_PASSWORD: sylius
+            MYSQL_ROOT_PASSWORD: sylius
+        networks:
+            sylius:
+                aliases:
+                    - db.local
+        volumes:
+            - ./data/mysql:/var/lib/mysql
+            - ./mariadb:/etc/mysql/conf.d
+        command:
+            - "--character-set-server=utf8mb4"
+            - "--collation-server=utf8mb4_unicode_ci"
+    redis:
+        container_name: sylius-redis
+        image: redis:alpine
+        restart: unless-stopped
+        networks:
+            sylius:
+                aliases:
+                    - redis.local
+        volumes:
+            - ./data/redis:/data
+networks:
+    sylius:

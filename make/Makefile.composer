@@ -1,0 +1,16 @@
+.PHONY: composer-outdated composer-install composer-install-dev composer-update composer-update-dev
+
+composer-outdated:
+	docker compose exec --user www-data php-fpm /bin/bash -c "COMPOSER_MEMORY_LIMIT=-1 composer outdated"
+
+composer-install:
+	docker compose exec --user www-data php-fpm /bin/bash -c "COMPOSER_MEMORY_LIMIT=-1 composer install --no-dev --optimize-autoloader --classmap-authoritative"
+
+composer-update:
+	docker compose exec --user www-data php-fpm /bin/bash -c "COMPOSER_MEMORY_LIMIT=-1 composer update -W --no-dev --optimize-autoloader --classmap-authoritative"
+
+composer-install-dev:
+	docker compose exec --user www-data php-fpm /bin/bash -c "COMPOSER_MEMORY_LIMIT=-1 composer install"
+
+composer-update-dev:
+	docker compose exec --user www-data php-fpm /bin/bash -c "COMPOSER_MEMORY_LIMIT=-1 composer update -W"

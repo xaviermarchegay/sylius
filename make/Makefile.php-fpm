@@ -1,0 +1,33 @@
+.PHONY: logs cc cc-dev migrate assets-compile assets-update opcache bash bash-root restart-php
+
+logs:
+	docker compose exec --user www-data php-fpm /bin/bash -c "grep 'CRITICAL' var/log/*.log"
+
+cc:
+	docker compose exec --user www-data php-fpm /bin/bash -c "bin/console cache:clear --env=prod --no-warmup"
+	docker compose exec --user www-data php-fpm /bin/bash -c "bin/console cache:warmup --env=prod"
+
+cc-dev:
+	docker compose exec --user www-data php-fpm /bin/bash -c "bin/console cache:clear --no-warmup"
+	docker compose exec --user www-data php-fpm /bin/bash -c "bin/console cache:warmup"
+
+migrate:
+	docker compose exec --user www-data php-fpm /bin/bash -c "bin/console doctrine:migrations:migrate  --no-interaction"
+
+assets-compile:
+	docker compose exec --user www-data php-fpm /bin/bash -c "bin/console asset-map:compile"
+
+assets-update:
+	docker compose exec --user www-data php-fpm /bin/bash -c "bin/console importmap:update"
+
+opcache:
+	docker compose exec --user www-data php-fpm /bin/bash -c "php /tmp/cachetool.phar opcache:reset --fcgi=127.0.0.1:9000"
+
+bash:
+	docker compose exec --user www-data php-fpm /bin/bash
+
+bash-root:
+	docker compose exec php-fpm /bin/bash
+
+restart-php:
+	docker compose restart php-fpm

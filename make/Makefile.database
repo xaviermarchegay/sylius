@@ -1,0 +1,11 @@
+.PHONY: database-import database-export
+
+database-export:
+	docker compose exec db /usr/bin/mysqldump -usylius -psylius sylius | gzip > ./data/backup.sql.gz
+
+database-import:
+	zcat ./data/backup.sql.gz | docker compose exec -T db /usr/bin/mysql -usylius -psylius sylius
+	echo 'update config set value = null where code in ("youtube_apikey", "spotify_clientid", "spotify_clientsecret")' | docker compose exec -T db /usr/bin/mysql -usylius -psylius sylius
+
+database-connect:
+	docker compose exec db /bin/sh -c "mysql -usylius -psylius sylius"

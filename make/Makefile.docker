@@ -1,0 +1,19 @@
+.PHONY: build rebuild ps start start-dev stop
+
+build:
+	docker compose build --pull
+
+rebuild:
+	docker compose build --force-rm --no-cache --pull
+
+ps:
+	docker compose ps
+
+start:
+	docker compose up --remove-orphans -d nginx php-fpm db redis
+
+start-dev:
+	docker compose up -d
+
+stop:
+	docker compose stop
