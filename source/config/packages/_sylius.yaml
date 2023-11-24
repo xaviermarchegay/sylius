@@ -252,3 +252,14 @@ sylius_theme:
             scan_depth: 1
             directories:
                 - "%kernel.project_dir%/themes"
+
+sylius_ui:
+    events:
+        sylius.shop.layout.topbar:
+            blocks:
+                before_switchers_legacy:
+                    enabled: false
+                currency_switcher:
+                    enabled: false
+                locale_switcher:
+                    enabled: false

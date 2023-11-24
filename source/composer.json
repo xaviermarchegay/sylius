@@ -27,8 +27,10 @@
         "sylius/paypal-plugin": "^1.5",
         "sylius/sylius": "^1.12.11",
         "symfony/dotenv": "^5.4 || ^6.0",
+        "symfony/flex": "^2.1",
         "symfony/runtime": "^5.4 || ^6.0",
-        "symfony/flex": "^2.1"
+        "twig/cache-extra": "^3.8",
+        "twig/extra-bundle": "*"
     },
     "require-dev": {
         "behat/behat": "^3.7",

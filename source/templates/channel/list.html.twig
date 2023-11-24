@@ -1,0 +1,5 @@
+<select onchange="location = this.value;">
+    {% for channel in channels %}
+        <option value="/?_channel_code={{ channel.code }}" {% if sylius.channel.code == channel.code %}selected{% endif %}>{{ channel.name }} ({{ channel.code }})</option>
+    {% endfor %}
+</select>
