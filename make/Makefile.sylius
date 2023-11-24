@@ -5,4 +5,7 @@ init:
 	docker compose exec --user www-data php-fpm /bin/bash -c "php -dmemory_limit=-1 bin/console doctrine:schema:create -n"
 	docker compose exec --user www-data php-fpm /bin/bash -c "php -dmemory_limit=-1 bin/console sylius:install -n"
 	docker compose exec --user www-data php-fpm /bin/bash -c "php -dmemory_limit=-1 bin/console sylius:fixtures:load -n"
-	docker compose exec --user www-data php-fpm /bin/bash -c "php -dmemory_limit=-1 bin/console sylius:init"
+	docker compose exec --user www-data php-fpm /bin/bash -c "php -dmemory_limit=-1 bin/console sylius:add-channels 1000"
+	docker compose exec --user www-data php-fpm /bin/bash -c "php -dmemory_limit=-1 bin/console sylius:add-products 500"
+	docker compose exec --user www-data php-fpm /bin/bash -c "php -dmemory_limit=-1 bin/console sylius:add-products 500"
+	docker compose exec --user www-data php-fpm /bin/bash -c "php -dmemory_limit=-1 bin/console sylius:add-products 500"
