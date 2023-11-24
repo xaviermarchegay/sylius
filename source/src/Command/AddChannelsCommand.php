@@ -79,6 +79,7 @@ class AddChannelsCommand extends Command
             $channel->setTaxCalculationStrategy('order_items_based');
             $channel->setDefaultLocale($locale);
             $channel->addLocale($locale);
+            $channel->setHostname('sylius.piconerd.com');
             $channel->setBaseCurrency($currency);
             $channel->setMenuTaxon($taxon);
 
