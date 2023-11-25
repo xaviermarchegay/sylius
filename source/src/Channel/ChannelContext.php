@@ -11,32 +11,40 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class ChannelContext implements ChannelContextInterface
 {
+    private const CHANNEL_CODE = '_channel_code';
+
     public function __construct(
         private readonly ChannelRepositoryInterface $channelRepository,
-        private readonly RequestStack $requestStack,
+        private readonly RequestStack               $requestStack,
     )
     {
     }
 
     public function getChannel(): ChannelInterface
     {
-        $codeFromUrl = $this->requestStack->getMainRequest()?->query?->get('_channel_code');
-        $codeFromSession = $this->requestStack->getSession()->get('_channel_code');
+        $codeFromUrl = $this->requestStack->getMainRequest()?->query?->get(self::CHANNEL_CODE);
+        $codeFromSession = $this->requestStack->getSession()->get(self::CHANNEL_CODE);
 
         if ($codeFromUrl === null && $codeFromSession === null) {
-            return $this->channelRepository->findAll()[0];
+            /** @var ChannelInterface $firstChannel */
+            $firstChannel = $this->channelRepository->findOneBy(criteria: ['enabled' => true]);
+            $this->requestStack->getSession()->set(self::CHANNEL_CODE, $firstChannel->getCode());
+            return $firstChannel;
         }
 
         if ($codeFromUrl) {
-            $this->requestStack->getSession()->set('_channel_code', $codeFromUrl);
+            $this->requestStack->getSession()->set(self::CHANNEL_CODE, $codeFromUrl);
             return $this->channelRepository->findOneByCode($codeFromUrl);
         }
 
-        $codeFromSession = $this->requestStack->getSession()->get('_channel_code');
+        $codeFromSession = $this->requestStack->getSession()->get(self::CHANNEL_CODE);
         if ($codeFromSession) {
             return $this->channelRepository->findOneByCode($codeFromSession);
         }
 
-        return $this->channelRepository->findAll()[0];
+        /** @var ChannelInterface $firstChannel */
+        $firstChannel = $this->channelRepository->findOneBy(criteria: ['enabled' => true]);
+        $this->requestStack->getSession()->set(self::CHANNEL_CODE, $firstChannel->getCode());
+        return $firstChannel;
     }
 }
