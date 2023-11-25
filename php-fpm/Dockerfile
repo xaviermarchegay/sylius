@@ -28,7 +28,8 @@ RUN chmod +x /usr/local/bin/install-php-extensions && install-php-extensions \
     xml \
     zip \
     sodium \
-    redis
+    redis \
+    spx
 
 # Install Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
