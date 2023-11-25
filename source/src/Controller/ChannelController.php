@@ -11,17 +11,15 @@ use Symfony\Component\HttpFoundation\Response;
 class ChannelController extends AbstractController
 {
     public function __construct(
-        private readonly ChannelRepositoryInterface $channelRepository
+        private readonly ChannelRepositoryInterface $channelRepository,
     )
     {
     }
 
     public function listChannels(): Response
     {
-        $channels = $this->channelRepository->findBy(criteria: [], orderBy: ['name' => 'asc']);
-
         return $this->render('channel/list.html.twig', [
-            'channels' => $channels,
+            'channels' => $this->channelRepository->findBy(criteria: [], orderBy: ['name' => 'asc']),
         ]);
     }
 }

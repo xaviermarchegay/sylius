@@ -27,9 +27,11 @@
 <div class="pusher" data-route="{{ app.request.get('_route') }}">
     {% block top %}
         <div id="menu" class="top-menu">
+            {% cache 'layout_channels_list' ttl(3600) %}
             {{ render(controller(
                 'App\\Controller\\ChannelController::listChannels'
             )) }}
+            {% endcache %}
             <div class="top-bar">{{ sylius_template_event('sylius.shop.layout.topbar') }}</div>
         </div>
     {% endblock %}
