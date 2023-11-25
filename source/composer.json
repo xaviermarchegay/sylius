@@ -24,6 +24,7 @@
     "require": {
         "php": "^8.0",
         "ext-intl": "*",
+        "snc/redis-bundle": "^4.7",
         "sylius/paypal-plugin": "^1.5",
         "sylius/sylius": "^1.12.11",
         "symfony/dotenv": "^5.4 || ^6.0",
