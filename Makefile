@@ -15,28 +15,19 @@ include ./make/Makefile.sylius
 update:
 	git pull
 	make composer-update
-	make migrate
-	make assets-update
-	make assets-compile
 	make restart-php
 
 update-dev:
 	git pull
 	make composer-update-dev
-	make migrate
-	make assets-update
-	make assets-compile
 	make restart-php
 
 install:
 	git pull
 	make composer-install
-	make assets-compile
 	make restart-php
 
 install-dev:
 	git pull
 	make composer-install-dev
-	make migrate
-	make assets-compile
 	make restart-php
