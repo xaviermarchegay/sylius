@@ -19,7 +19,7 @@ class ChannelController extends AbstractController
     public function listChannels(): Response
     {
         return $this->render('channel/list.html.twig', [
-            'channels' => $this->channelRepository->findBy(criteria: [], orderBy: ['name' => 'asc']),
+            'channels' => $this->channelRepository->findBy(criteria: ['enabled' => true], orderBy: ['name' => 'asc']),
         ]);
     }
 }
