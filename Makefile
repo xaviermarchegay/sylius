@@ -31,7 +31,6 @@ update-dev:
 install:
 	git pull
 	make composer-install
-	make migrate
 	make assets-compile
 	make restart-php
 
